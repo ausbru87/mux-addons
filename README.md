@@ -13,6 +13,136 @@ bash scripts/install.sh
 # Restart Mux to pick up changes
 ```
 
+> **What does `install.sh` do?** It symlinks each `skills/<name>/` into `~/.mux/skills/` (so updates are instant after `git pull`) and copies each `agents/<name>.md` into `~/.mux/agents/`. That's it — no build step, no dependencies.
+
+## Using the Addons
+
+After installing and restarting Mux, you get new **skills**, **agents**, and **configs** you can use immediately.
+
+### 1. Use a Skill (slash commands)
+
+Skills activate via slash commands in any Mux chat. Type `/` and you'll see the installed triggers:
+
+```
+/speckit          → Spec-driven development workflow (explore → specify → plan → tasks)
+/openspec         → OpenSpec fluid specification workflow  
+/coder-diagrams   → Generate Coder architecture diagrams
+/sk-exec          → TDD implementation with parallel sub-agents
+/opsx-exec        → OpenSpec batched execution with verification
+```
+
+**Example — start a spec-driven feature:**
+```
+You:  /speckit
+Mux:  [loads sk-spec skill, enters specification mode]
+You:  I want to add OAuth2 login to our API
+Mux:  [guides you through explore → specify → plan → tasks]
+```
+
+**Example — generate a Coder diagram:**
+```
+You:  /coder-diagrams
+Mux:  [loads coder-diagrams skill]
+You:  Show me a K8s deployment architecture for Coder with workspace proxies
+Mux:  [produces a Mermaid diagram with control plane, data plane, and proxy relay]
+```
+
+### 2. Use a Custom Agent (agent selector)
+
+Agents appear in the Mux agent dropdown (top of the chat). Each agent is pre-configured with the right tools and behavior for its job:
+
+| Pick this agent... | When you want to... |
+|---------------------|---------------------|
+| **SK Spec** | Plan a feature with spec-driven development (TDD, constitutional enforcement) |
+| **SK Exec** | Implement spec-kit tasks with strict TDD and parallel sub-agents |
+| **OPSX Spec** | Specify a change using OpenSpec's fluid, iterative workflow |
+| **OPSX Exec** | Execute OpenSpec tasks with batched parallelism and verification |
+| **Coder Diagrams** | Generate infrastructure diagrams for Coder deployments |
+
+Agents load their paired skill automatically — just select the agent and start chatting.
+
+### 3. Apply Configuration Presets
+
+The `configs/` directory contains ready-to-use configuration fragments. These aren't installed automatically — you pick what you need.
+
+#### Model presets
+
+Set which model and thinking level an agent uses. Edit `~/.mux/config.json` or use the Mux settings UI:
+
+```bash
+# See what's available
+cat configs/model-presets/fast.json      # Sonnet + low thinking (quick iteration)
+cat configs/model-presets/balanced.json   # Sonnet + medium thinking (general dev)
+cat configs/model-presets/deep.json       # Opus + xhigh thinking (complex planning)
+```
+
+To apply a preset, add it to `~/.mux/config.json` under `agentAiDefaults`:
+
+```jsonc
+{
+  "agentAiDefaults": {
+    // Use deep thinking for specification agents
+    "sk-spec": {
+      "modelString": "anthropic:claude-opus-4-6",
+      "thinkingLevel": "xhigh"
+    },
+    // Use fast preset for execution agents
+    "sk-exec": {
+      "modelString": "anthropic:claude-sonnet-4-20250514",
+      "thinkingLevel": "low"
+    }
+  }
+}
+```
+
+#### Task settings
+
+Control sub-agent parallelism and output compaction:
+
+```bash
+cat configs/task-settings/default.json
+```
+
+```jsonc
+{
+  "taskSettings": {
+    "maxParallelAgentTasks": 10,    // How many sub-agents can run at once
+    "maxTaskNestingDepth": 5,       // How deep sub-agents can nest
+    "bashOutputCompactionMinLines": 10,
+    "bashOutputCompactionMaxKeptLines": 40
+  }
+}
+```
+
+Merge these values into the `taskSettings` key in `~/.mux/config.json`.
+
+#### MCP servers
+
+Add external tool servers (Model Context Protocol):
+
+```bash
+# Copy to global config
+cp configs/mcp/coder.jsonc ~/.mux/mcp.jsonc
+
+# Or to a specific project
+cp configs/mcp/coder.jsonc /path/to/project/.mux/mcp.jsonc
+```
+
+### 4. Verify Everything Works
+
+```bash
+# Check the install
+bash scripts/install.sh --dry-run    # Preview what would be installed
+
+# Validate skill/agent files
+bash scripts/validate.sh             # Lint frontmatter and naming conventions
+```
+
+After restarting Mux:
+1. Type `/` in chat — installed skill triggers should appear
+2. Open the agent selector — installed agents should be listed
+3. Select an agent (e.g., SK Spec) and start a conversation — it should load its skill automatically
+
 ## What's Inside
 
 ### Skills
