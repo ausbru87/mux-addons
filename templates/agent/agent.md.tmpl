@@ -1,0 +1,52 @@
+---
+name: My Agent                    # Display name (Title Case)
+description: >-
+  One-line description of what this agent does.
+base: exec                        # exec = implementation, plan = planning/research
+
+ui:
+  color: "#6366f1"                # Hex color for UI display
+
+subagent:
+  runnable: true                  # Can be spawned as a sub-agent
+
+tools:
+  add:
+    # Common tools for exec agents:
+    - file_read
+    - "file_edit_.*"
+    - bash
+    - task                        # Sub-agent spawning (exec agents)
+    - "task_.*"                   # Sub-agent management (exec agents)
+    - agent_skill_read
+    - agent_skill_read_file
+    # Additional tools for plan agents:
+    # - web_fetch
+    # - web_search
+  # remove:                       # Remove tools not needed
+  #   - task                      # Plan agents typically remove task tools
+  #   - "task_.*"
+---
+
+# My Agent
+
+Brief description of what this agent does.
+
+## Load Full Instructions
+
+Before starting any work, load the detailed workflow:
+
+```
+agent_skill_read({ name: "my-skill" })
+```
+
+## Quick Reference
+
+**Workflow:**
+1. Step one
+2. Step two
+3. Step three
+
+**Key constraints:**
+- Constraint one
+- Constraint two

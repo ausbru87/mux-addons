@@ -1,0 +1,5 @@
+{
+  "description": "Deep analysis — thorough reasoning for complex planning and architecture",
+  "modelString": "anthropic:claude-opus-4-6",
+  "thinkingLevel": "xhigh"
+}

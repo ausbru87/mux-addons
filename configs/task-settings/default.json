@@ -1,0 +1,11 @@
+{
+  "taskSettings": {
+    "maxParallelAgentTasks": 10,
+    "maxTaskNestingDepth": 5,
+    "bashOutputCompactionMinLines": 10,
+    "bashOutputCompactionMinTotalBytes": 4096,
+    "bashOutputCompactionMaxKeptLines": 40,
+    "bashOutputCompactionTimeoutMs": 5000,
+    "bashOutputCompactionHeuristicFallback": true
+  }
+}

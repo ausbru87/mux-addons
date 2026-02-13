@@ -1,0 +1,5 @@
+{
+  "description": "Fast iteration — quick responses for simple tasks",
+  "modelString": "anthropic:claude-sonnet-4-20250514",
+  "thinkingLevel": "low"
+}

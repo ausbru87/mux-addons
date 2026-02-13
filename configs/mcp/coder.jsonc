@@ -1,0 +1,23 @@
+{
+  // Coder MCP server configuration
+  // Copy to ~/.mux/mcp.jsonc or .mux/mcp.jsonc
+  //
+  // Mux discovers MCP servers from:
+  //   1. ~/.mux/mcp.jsonc (global)
+  //   2. ./.mux/mcp.jsonc (per-project)
+  //   3. .mux/mcp.local.jsonc (local override, gitignored)
+  //
+  // Servers start lazily and idle-timeout after 10 minutes.
+
+  "mcpServers": {
+    // Example: Coder API server
+    // "coder": {
+    //   "command": "npx",
+    //   "args": ["-y", "@coder/mcp-server"],
+    //   "env": {
+    //     "CODER_URL": "https://your-coder-instance.example.com",
+    //     "CODER_SESSION_TOKEN": "${CODER_SESSION_TOKEN}"
+    //   }
+    // }
+  }
+}
